@@ -1,0 +1,23 @@
+.chartcont {
+  margin-top: 20px;
+  margin-left: 30px;
+  height: 400px;
+  width: 600px;
+}
+.profitloss {
+  padding-left: 30px;
+  padding-top: 20px;
+  margin-bottom: 30px;
+}
+.MC {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+.chartcont1 {
+  margin-top: 20px;
+  margin-left: 30px;
+}
+.addbtn {
+  margin-top: 20px;
+}
