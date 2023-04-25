@@ -1,0 +1,5 @@
+CustomerName,ProjectName,Category, OpeningBacklog , ClosingBacklog ,OrderDate, OrderAmount ,RevenueType,ContractType,Jan-12,Feb-12,Mar-12,Apr-12,May-12,Jun-12,Jul-12,Aug-12,Sep-12,Oct-12,Nov-12,Dec-12,Jan-13,Feb-13,Mar-13,"Total - 
+2012", PO in excess of forecast , Unused (Lost) PO Value , Dev Centre Payments , Difference ,OFF
+Client-1,Project-T1,Backlog,315000,0,05-11-2019,0,Services,Fixed,105000,105000,105000,0,0,0,0,0,0,0,0,0,0,0,0,315000,0,0,0,0,
+Clien-2,Project-T2,Backlog,1090000,0,28-03-2011,0,Services,Milestone,0,0,1090000,0,0,0,0,0,0,0,0,0,0,0,0,1090000,0,0,0,0,
+Client-1,Project-T3,Commit,0,0,01-07-2012,2288022,Licenses,Fixed,2275949,0,12073,0,0,0,0,0,0,0,0,0,0,0,0,2288022,0,0,0,0,

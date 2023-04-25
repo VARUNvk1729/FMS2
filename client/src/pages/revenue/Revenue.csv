@@ -1,0 +1,13 @@
+CustomerName,ProjectName,Category,Country, OpeningBacklog , ClosingBacklog ,OrderDate, OrderAmount ,RevenueType,ContractType,Jan-12,Feb-12,Mar-12,Apr-12,May-12,Jun-12,Jul-12,Aug-12,Sep-12,Oct-12,Nov-12,Dec-12,Jan-13,Feb-13,Mar-13,"Total - 
+2012", PO in excess of forecast , Unused (Lost) PO Value , Dev Centre Payments , Difference ,OFF
+Client-1,Project-T1,Backlog,India,315000,0,2019-11-05,0,Services,Fixed,105000,105000,105000,0,0,0,0,0,0,0,0,0,0,0,0,315000,0,0,0,0,
+Clien-2,Project-T2,Backlog,India,1090000,0,2011-03-28,0,Services,Milestone,0,0,1090000,0,0,0,0,0,0,0,0,0,0,0,0,1090000,0,0,0,0,
+Client-1,Project-T3,Commit,India,0,0,2012-07-01,2288022,Licenses,Fixed,2275949,0,12073,0,0,0,0,0,0,0,0,0,0,0,0,2288022,0,0,0,0,
+Client-3,Project-T4,Backlog,Australia,65978,14813,2011-09-16,0,Services,T&M,10098,13053,14674,13340,0,0,0,0,0,0,0,0,0,0,0,51165,14813,0,40932,10233,OFF
+Client-4,Project-T5,Backlog,US,20340,5220,2011-04-04,0,Services,T&M,15120,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15120,5220,0,0,0,
+Client-4,Project-T6,Backlog,US,0,31200,2012-01-22,55200,Services,Fixed,2400,4800,4800,4800,4800,2400,0,0,0,0,0,0,0,0,0,24000,31200,0,0,0,
+Client-3,Project-T7,Backlog,US,245009,17.32,2011-11-21,0,Services,T&M,37992.64,36738,40619,36691,39662.56,36973.44,16315.04,0,0,0,0,0,0,0,0,244991.68,17.32,0,195993.34,48998.34,OFF
+Client-3,Project-T8,Backlog,Australia,0,0,2011-01-05,98800,Services,T&M,0,0,0,0,14980,13575,15310,15525,14985,15200,9225,0,0,0,0,98800,0,0,79040,19760,OFF
+Client-5,Project-T9,Backlog,US,0,8680,2011-08-22,10500,Services,T&M,0,0,0,0,0,0,0,350,1085,0,245,140,0,0,0,1820,8680,0,0,0,
+Client-6,Project-T10,Bestcase,US,0,0,2012-11-30,3000,Services,T&M,0,0,0,0,0,0,0,0,0,0,3000,0,0,0,0,3000,0,0,0,0,
+Client-7,Project-T11,Backlog,US,0,-219.63,2012-09-28,14420,Services,T&M,0,0,0,0,0,0,0,0,0,0,14639.63,0,0,0,0,14639.63,-219.63,0,0,0,
