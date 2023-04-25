@@ -2,9 +2,9 @@
   border-radius: 15px;
   background-color: #48ed0c;
   color: white;
-  width: 120px;
-  height: 60px;
-  font-size: 25px;
+  width: 100px;
+  height: 50px;
+  font-size: 18px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,19 +13,26 @@
 body {
   font-family: sans-serif;
 }
-
+.loss1{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
 .loss {
   border-radius: 15px;
   background-color: red;
   color: white;
-  width: 120px;
-  height: 60px;
-  font-size: 25px;
+  width: 100px;
+  height: 50px;
+  font-size: 18px;
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
 .maincontainer {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  
 }

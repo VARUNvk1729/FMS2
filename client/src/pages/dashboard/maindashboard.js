@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./chart.css";
 import BarChart from "../BarChart";
 import { Profit } from "./profitloss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimeline,faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
 import{
   Chart as ChartJS,
   ArcElement,
@@ -320,7 +322,7 @@ export const Statistics = () => {
     "dec",
     "total",
   ];
-  let month1 = [
+  let month3 = [
     "Jan",
     "Feb",
     "Mar",
@@ -339,7 +341,7 @@ export const Statistics = () => {
   console.log(graphdata);
   //console.log(mock)
   let cd = {
-    labels: month1,
+    labels: month3,
     datasets: [
       {
         label: "Net Earnings",
@@ -356,7 +358,7 @@ export const Statistics = () => {
       {
         label: "Total Expense",
         data: graphdata1,
-        backgroundColor: ["#2a71d0",'black','red','green','blue','yellow','orange','pink'],
+        backgroundColor: ["#2a71d0",'green','red','midnightblue','blue','yellow','orange','pink'],
         borderColor: "white",
         borderWidth: 2,
       },
@@ -373,55 +375,115 @@ export const Statistics = () => {
   });
   //comment 1
   return (
+    // <div className="MC">
+    //   <div className="row1">
+    //   <div className="profitloss box">
+    //     <Profit value={graphdata[graphdata.length - 1]} style={{margin:'30px'}}/>
+    //   </div><br/><br/>
+      
+
+    //   <div className="box" style={{marginLeft:'50px'}}>
+    //     <h3 style={{marginRight:'30px',textAlign:'left'}}>
+    //       Total Employees
+    //     </h3><hr/>
+    //     <p style={{textAlign:'center'}}>
+    //       {dd[0]}
+    //       </p>
+    //   </div><br/><br/>
+
+    //   <div className="box" style={{marginLeft:'50px'}}>
+    //     <h3 style={{marginRight:'30px',textAlign:'left'}}>
+    //       Total Projects
+    //     </h3><hr/>
+    //     <p style={{textAlign:'center'}}>
+    //       {dd[1]}
+    //       </p>
+    //   </div><br/><br/>
+     
+    //   <div className="box" style={{marginLeft:'50px'}}>
+    //     <h3 style={{marginRight:'30px',textAlign:'left'}}>
+    //       Total Vendors
+    //     </h3><hr/>
+    //     <p style={{textAlign:'center'}}>
+    //       {dd[2]}
+    //       </p>
+    //   </div><br/><br/>
+    //   </div>
+
+    //     <div className="row">
+         
+    //   <div class="doughnut" style={{marginLeft:'50px'}}>
+    //   <h3 style={{textAlign:'left'}}>Expenses Monthly Forecast</h3><hr/>
+    //   <div className="chartcont">
+    //     <BarChart chartData={cd} />
+    //   </div>
+    //   </div>
+    //   <br/><br/>
+
+    //   <div class="doughnut" style={{marginLeft:'50px'}}>
+    //  <h3 style={{textAlign:'left'}}>Types of Expenses</h3><hr/>
+    //   <div className="chartcont">
+    //     <Doughnut style={{marginLeft:'100px'}}
+    //     data={cd1}
+    //     >
+    //     </Doughnut>
+    //   </div>
+    // </div>
+
+    // </div> 
+    // </div>
+    <div>
     <div className="MC">
-      <div className="profitloss">
+      <div className="statistics">
+        <div className="statisticsi" style={{marginLeft:'49px'}}>
+      <div className="profitloss" style={{width:'245px', height:'180px'}}>
         <Profit value={graphdata[graphdata.length - 1]} />
       </div>
-      <div>
-        <h1>
-          Total Employees
-        </h1>
-        <p>
-          {dd[0]}
-          </p>
+      <div className="box" style={{marginLeft:'30px'}}>
+         <h3 style={{marginRight:'30px',textAlign:'left',paddingTop:'15px',paddingLeft:'10px'}}>
+           Total Employees <FontAwesomeIcon icon={faPeopleGroup} bounce style={{color: "#0fe7eb",}} />
+         </h3><hr/>
+         <p style={{textAlign:'center', fontSize:'25px'}}>
+           {dd[0]}
+           </p>
+       </div><br/><br/>
+
+       <div className="box" style={{marginLeft:'30px'}}>
+         <h3 style={{marginRight:'65px',textAlign:'left',paddingTop:'15px',paddingLeft:'10px'}}>
+           Total Projects <FontAwesomeIcon icon={faTimeline} bounce />
+         </h3><hr/>
+         <p style={{textAlign:'center', fontSize:'25px'}}>
+           {dd[1]}
+           </p>
+       </div><br/><br/>
+     
+       <div className="box" style={{marginLeft:'30px',marginRight:'150px'}}>
+         <h3 style={{marginRight:'65px',textAlign:'left',paddingTop:'15px',paddingLeft:'10px'}}>
+           Total Vendors <FontAwesomeIcon icon={faPeopleGroup} bounce style={{color: "#e30d0d",}} />
+         </h3><hr/>
+         <p style={{textAlign:'center', fontSize:'25px'}}>
+           {dd[2]}
+           </p>
+       </div><br/><br/><br/><br/>
       </div>
-      <div>
-        <h1>
-          Total Projects
-        </h1>
-        <p>
-          {dd[1]}
-          </p>
-      </div>
-      <div>
-        <h1>
-          Total Vendors
-        </h1>
-        <p>
-          {dd[2]}
-          </p>
-      </div>
-      <div>
-      <h1>Expenses Monthly Forecast</h1>
-      <div className="chartcont">
-        <BarChart chartData={cd} />
-      </div>
-      </div>
-      {/* <div>
-      <h1>Types of Expenses</h1>
-      <div className="chartcont">
-        <BarChart chartData={cd1} />
-      </div>
-      </div> */}
-      <div>
-      <h1>Types of Expenses</h1>
-      <div className="chartcont">
+      <div className="graphscontainer" style={{marginTop:'5px'}}>
+      <div class="doughnut" style={{marginLeft:'50px', marginRight:'50px'}}>
+       <h3 style={{textAlign:'left'}}>Expenses Monthly Forecast</h3><hr/>
+       <div className="chartcont">
+         <BarChart chartData={cd} />
+       </div>
+       </div><div className="doughnut">
+      <h3>Types of Expenses</h3><hr/>
+      <div className="chartcont1">
         <Doughnut
         data={cd1}
         >
         </Doughnut>
       </div>
+      </div> 
       </div>
+      </div>
+    </div>
     </div>
   );
 };

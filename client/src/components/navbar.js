@@ -5,33 +5,58 @@ const Navbar = () => {
   const { isAuth } = useSelector((state) => state.auth);
 
   return (
-    <nav className="navbar navbar-light bg-light">
-      <div className="container">
-        <div>
-          <NavLink to="/">
-            <span className="navbar-brand mb-0 h1">Home</span>
-          </NavLink>
-        </div>
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+  <div className="container">
+    <NavLink to="/" className="navbar-brand">
+      Home
+    </NavLink>
 
+    <button
+      className="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span className="navbar-toggler-icon"></span>
+    </button>
+
+    <div className="collapse navbar-collapse" id="navbarNav">
+      <ul className="navbar-nav ms-auto">
         {isAuth ? (
-          <div>
-            <NavLink to="/dashboard" className="mx-3">
-              <span>Dashboard</span>
-            </NavLink>
-          </div>
+          <>
+            <li className="nav-item">
+              <NavLink to="/dashboard" className="nav-link">
+                Dashboard
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <button className="btn btn-outline-primary ms-3">
+                Logout
+              </button>
+            </li>
+          </>
         ) : (
-          <div>
-            <NavLink to="/login">
-              <span>Login</span>
-            </NavLink>
-
-            <NavLink to="/register" className="mx-3">
-              <span>Register</span>
-            </NavLink>
-          </div>
+          <>
+            <li className="nav-item">
+              <NavLink to="/login" className="nav-link">
+                Login
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/register" className="nav-link">
+                Register
+              </NavLink>
+            </li>
+          </>
         )}
-      </div>
-    </nav>
+      </ul>
+    </div>
+  </div>
+</nav>
+
   );
 };
 

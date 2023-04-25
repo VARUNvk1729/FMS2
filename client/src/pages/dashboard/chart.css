@@ -8,16 +8,79 @@
   padding-left: 30px;
   padding-top: 20px;
   margin-bottom: 30px;
+  display: inline-block; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+  padding: 5px;
+  height: 200px;
+  padding-top:15px;
+  padding-left: 10px;
+  border-radius: 25px;
 }
-.MC {
+.MC{
+    display: flex;
+    flex-direction: column;
+    /* background-color: midnightblue; */
+    /* text-align: center;
+   margin-top: '20px'; */
+
+}
+.row {
   display: flex;
   flex-direction: row;
   text-align: center;
+ margin-top: '20px';
+}
+.row1 {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+ margin-top: '20px';
 }
 .chartcont1 {
   margin-top: 20px;
   margin-left: 30px;
+  width: 300px;
 }
 .addbtn {
   margin-top: 20px;
+}
+.statisticsi{
+  display: flex;
+  flex-direction: row;
+  margin-top: 35px;
+}
+.statistics{
+  display: flex;
+  flex-direction: column;
+}
+.graphscontainer{
+  display: flex;
+  flex-direction: row;
+}
+.doughnut{
+  display: inline-block; /* or use block or flex depending on your layout */
+  padding-top:15px;
+  padding-left: 10px;
+  border-radius: 25px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* add shadow */
+  padding: 20px; 
+  height:400px
+}
+.box{
+  display: inline-block; /* or use block or flex depending on your layout */
+  /* margin-right: '20px'; */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* add shadow */
+  padding: 5px;
+  height: 180px;
+  width: 248px;
+  border-radius: 25px;
+  
+}
+.box:hover {
+  background-color: #01bf71 !important;
+  transition: 0.3s ease-out;
+}
+.profitloss:hover {
+  background-color: #01bf71 !important;
+  transition: 0.3s ease-out;
 }

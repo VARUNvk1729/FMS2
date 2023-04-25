@@ -9,6 +9,7 @@ import { FaSuperpowers, FaMoneyBillWave, FaPlusCircle } from "react-icons/fa";
 import { name12 } from "./login";
 import arole from "../App";
 import { Statistics } from "./dashboard/maindashboard";
+import {FooterLink} from './fordashboard';
 import {
   ProSidebar,
   Menu,
@@ -32,10 +33,19 @@ import { BiCog } from "react-icons/bi";
 
 import "react-pro-sidebar/dist/css/styles.css";
 import "./Header.css";
+import Spinner from './Spinner';
 
 const Dashboard = () => {
   let idd = localStorage.getItem("name");
   console.log(idd);
+  const [loading1, setLoading1] = useState(true);
+
+  useEffect(() => {
+    // simulate a delay for loading data
+    setTimeout(() => {
+      setLoading1(false);
+    }, 2000);
+  }, []);
 
   async function fetchData() {
     try {
@@ -115,15 +125,16 @@ const Dashboard = () => {
   useEffect(() => {
     protectedInfo();
   }, []);
+  
   const [menuCollapse, setMenuCollapse] = useState(false);
 
   const menuIconClick = () => {
     menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true);
   };
 
-  return loading ? (
+  return loading1 ? (
     <Layout>
-      <h1>Loading...</h1>
+      <Spinner />
     </Layout>
   ) : (
     <>
@@ -146,84 +157,85 @@ const Dashboard = () => {
               <SidebarContent>
                 <Menu iconShape="square">
                   <MenuItem active={true} icon={<FiHome />}>
-                    <Link to="/">Home</Link>
+                    <FooterLink to="/">Home</FooterLink>
                   </MenuItem>
                   <div className="varun">
                     {arole == "A" && (
-                      <SubMenu title="Analytics" icon={<FaList />}>
-                        <MenuItem icon={<FaMoneyBillWave />}>
-                          <Link to="/dashboard/vendor">Vendor</Link>
+                      <SubMenu className="sidebarclass" title="Analytics" icon={<FaList />}>
+                        <MenuItem active={true} icon={<FaMoneyBillWave />}>
+                          <FooterLink to="/dashboard/vendor">Vendor</FooterLink>
                         </MenuItem>
-                        <MenuItem icon={<FaMoneyBillWave />}>
-                          <Link to="/dashboard/revenue">Revenue</Link>
+                        <MenuItem active={true} icon={<FaMoneyBillWave />}>
+                          <FooterLink to="/dashboard/revenue">Revenue</FooterLink>
                         </MenuItem>
-                        <MenuItem icon={<FaMoneyBillWave />}>
-                          <Link to="/dashboard/furniture">Capital</Link>
+                        <MenuItem active={true}  icon={<FaMoneyBillWave />}>
+                          <FooterLink to="/dashboard/furniture">Capital</FooterLink>
                           {/* <SubMenu>
                             <MenuItem>
-                              <Link to="/dashboard/furniture/software">
+                              <FooterLink to="/dashboard/furniture/software">
                                 Software
-                              </Link>
+                              </FooterLink>
                             </MenuItem>
                             <MenuItem>
-                              <Link to="/dashboard/furniture/hardware">
+                              <FooterLink to="/dashboard/furniture/hardware">
                                 Hardware
-                              </Link>
+                              </FooterLink>
                             </MenuItem>
                           </SubMenu> */}
                         </MenuItem>
-                        <MenuItem icon={<FaMoneyBillWave />}>
-                          <Link to="/dashboard/opex">Opex</Link>
+                        <MenuItem active={true} icon={<FaMoneyBillWave />}>
+                          <FooterLink to="/dashboard/opex">Opex</FooterLink>
                         </MenuItem>
-                        <MenuItem icon={<FaMoneyBillWave />}>
-                          <Link to="/dashboard/payroll">Payroll</Link>
+                        <MenuItem active={true}  icon={<FaMoneyBillWave />}>
+                          <FooterLink to="/dashboard/payroll">Payroll</FooterLink>
                         </MenuItem>
                       </SubMenu>
                     )}
 
                     {arole == "v" && (
-                      <SubMenu title="Analytics" icon={<FaList />}>
+                      <SubMenu active={true}  title="Analytics" icon={<FaList />}>
                         <MenuItem icon={<FaMoneyBillWave />}>
-                          <Link to="/dashboard/vendor">Vendor</Link>
+                          <FooterLink to="/dashboard/vendor">Vendor</FooterLink>
                         </MenuItem>
                       </SubMenu>
                     )}
 
                     {arole == "r" && (
                       <SubMenu title="Analytics" icon={<FaList />}>
-                        <MenuItem icon={<FaMoneyBillWave />}>
-                          <Link to="/dashboard/revenue">Revenue</Link>
+                        <MenuItem active={true}  icon={<FaMoneyBillWave />}>
+                          <FooterLink to="/dashboard/revenue">Revenue</FooterLink>
                         </MenuItem>
                       </SubMenu>
                     )}
 
                     {arole == "c" && (
-                      <SubMenu title="Analytics" icon={<FaList />}>
+                      <SubMenu active={true}  title="Analytics" icon={<FaList />}>
                         <MenuItem icon={<FaMoneyBillWave />}>
-                          <Link to="/dashboard/furniture">Capital</Link>
+                          <FooterLink to="/dashboard/furniture">Capital</FooterLink>
                         </MenuItem>
                       </SubMenu>
                     )}
 
                     {arole == "o" && (
                       <SubMenu title="Analytics" icon={<FaList />}>
-                        <MenuItem icon={<FaMoneyBillWave />}>
-                          <Link to="/dashboard/opex">Opex</Link>
+                        <MenuItem active={true}  icon={<FaMoneyBillWave />}>
+                          <FooterLink to="/dashboard/opex">Opex</FooterLink>
                         </MenuItem>
                       </SubMenu>
                     )}
 
                     {arole == "p" && (
                       <SubMenu title="Analytics" icon={<FaList />}>
-                        <MenuItem icon={<FaMoneyBillWave />}>
-                          <Link to="/dashboard/payroll">Payroll</Link>
+                        <MenuItem active={true}  icon={<FaMoneyBillWave />}>
+                          <FooterLink to="/dashboard/payroll">Payroll</FooterLink>
                         </MenuItem>
                       </SubMenu>
                     )}
                   </div>
-                  <MenuItem icon={<FaSuperpowers />}>About US</MenuItem>
-                  <MenuItem icon={<FaPlusCircle />}>
-                    <Link to="/dashboard/createuser">Add User</Link>
+                  <MenuItem active={true} icon={<FaSuperpowers />}>
+                  <FooterLink>About Us</FooterLink></MenuItem>
+                  <MenuItem active={true} icon={<FaPlusCircle />}>
+                    <FooterLink to="/dashboard/createuser">Add User</FooterLink>
                   </MenuItem>
                 </Menu>
               </SidebarContent>
@@ -231,9 +243,9 @@ const Dashboard = () => {
                 <Menu iconShape="square">
                   <MenuItem icon={<FiLogOut />}>
                     {" "}
-                    <Link to="/" onClick={() => logout()}>
+                    <FooterLink to="/" onClick={() => logout()}>
                       Logout
-                    </Link>
+                    </FooterLink>
                   </MenuItem>
                 </Menu>
               </SidebarFooter>
