@@ -7,25 +7,25 @@ import { ServicesContainer, ServicesH1, ServicesWrapper, ServicesCard, ServicesI
 const Services = () => {
   return (
     <ServicesContainer id='services'>
-      <ServicesH1>Our Services</ServicesH1>
+      <ServicesH1>Services we offer</ServicesH1>
       <ServicesWrapper>
 
         <ServicesCard>
           <ServicesIcon src={Icon1} />
-          <ServicesH2>Reduce expenses</ServicesH2>
-          <ServicesP>We help reduce your fees and increase your overall revenue</ServicesP>
+          <ServicesH2>Better Visualisation</ServicesH2>
+          <ServicesP>Get rid of your tacky spreadsheets, using our well-styles tables</ServicesP>
         </ServicesCard>
 
         <ServicesCard>
           <ServicesIcon src={Icon2} />
-          <ServicesH2>Virtual Offices</ServicesH2>
-          <ServicesP>You can access our platform online anywhere in the world</ServicesP>
+          <ServicesH2>Remote work</ServicesH2>
+          <ServicesP>Access all your data from any part of the world and at anytime easily </ServicesP>
         </ServicesCard>
 
         <ServicesCard>
           <ServicesIcon src={Icon3} />
-          <ServicesH2>Premium Benefits</ServicesH2>
-          <ServicesP>Unlock our special membership card and get 5% cashback</ServicesP>
+          <ServicesH2>Computation made simple</ServicesH2>
+          <ServicesP>We perform all your computations making your work swift and agile</ServicesP>
         </ServicesCard>
 
       </ServicesWrapper>

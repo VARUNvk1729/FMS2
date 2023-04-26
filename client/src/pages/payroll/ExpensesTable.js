@@ -15,8 +15,60 @@ export const PayrollTable = (props) => {
   const { role } = props;
   var XLSX = require("xlsx");
   console.log(role);
+  const readUploadFile = (e) => {
+    e.preventDefault();
+    if (e.target.files) {
+        const reader = new FileReader();
+        let json=[];
+        reader.onload = (e) => {
+            const data = e.target.result;
+            const workbook = XLSX.read(data, { type: "array" });
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+            json = XLSX.utils.sheet_to_json(worksheet);
+            console.log(json);
+            for(let i=0;i<json.length;i++){
+            updateApiCall(json[i]);
+          }
+        };
+        // for(let i=0;i<json.length;i++){
+        //   updateApiCall(json[i]);
+        // }
+
+        reader.readAsArrayBuffer(e.target.files[0]);
+    }
+  }
   //call api and fetch dat
   // const [countryobj,setCountry]=useState({country:"IND"});
+  const updateApiCall = async (data) => {
+    console.log("called apicall");
+    //let country=countryobj.country;
+    let checkobj=data.payroll;
+    const response = await fetch(`http://localhost:8000/payroll/check/${checkobj}`);
+    const jsonData = await response.json();
+    console.log(jsonData);
+    if(jsonData.length===0){
+      
+      fetch("http://localhost:8000/payroll/addRow/", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "content-type": "application/json",
+      },
+    }).then((resp) => console.log("row does not exist in database and successfully added"));
+    }
+    else{
+      let upobj = data;
+    console.log(upobj);
+    fetch(`http://localhost:8000/payroll/updateRow/${data.payroll}`, {
+      method: "PUT",
+      body: JSON.stringify(upobj),
+      headers: {
+        "content-type": "application/json",
+      },
+    }).then((resp) => console.log("row already exists in database and successfully updated"));
+    }
+  };
   const apiCall = async () => {
     console.log("called apicall");
     //let country=countryobj.country;
@@ -355,6 +407,15 @@ export const PayrollTable = (props) => {
             </Button>
           </Grid>
         </div>
+        <form>
+        <label htmlFor="upload">Upload File</label>
+        <input
+          type="file"
+          name="upload"
+          id="upload"
+          onChange={readUploadFile}
+        />
+      </form>
       </div>
       {/*<div className="chartcont">
     <BarChart chartData={cd}/>

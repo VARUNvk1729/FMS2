@@ -753,6 +753,16 @@ app.get("/payroll", async (request, response) => {
     response.status(200).json(results.rows);
   });
 });
+app.get("/payroll/check/:name", async (request, response) => {
+  table = "payroll";
+  let {name}=request.params;
+  const res = await db.query(`SELECT * FROM ${table} where payroll='${name}'`, (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+});
 
 app.put("/payroll/updateRow/:name", async (request, response) => {
   try {

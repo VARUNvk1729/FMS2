@@ -16,8 +16,8 @@ const CoverSection = () => {
         <VideoBg autoPlay loop muted src={Video} type='video/mp4' />
       </CoverBg>
       <CoverContent>
-        <CoverH1>Awesome Title Goes Here</CoverH1>
-        <CoverP>Sign up for a new account today and consume awesome features from our website.</CoverP>
+        <CoverH1>Health gear for Business</CoverH1>
+        {/* <CoverP style={{color: 'green'}}>Health gear for Business</CoverP> */}
         <CoverBtnWrapper>
           <Button to="signup" onMouseEnter={onHover} onMouseLeave={onHover} primary='true' dark='true'>
             Get started {hover ? <ArrowForward /> : <ArrowRight />}

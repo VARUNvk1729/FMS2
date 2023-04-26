@@ -13,44 +13,57 @@ const Footer = () => {
       <FooterWrapper>
         <FooterLinksContainer>
 
-          <FooterLinksWrapper>
-            <FooterLinkItems>
-              <FooterLinkTitle>About Us</FooterLinkTitle>
-              <FooterLink to='/'>How it works</FooterLink>
+           <FooterLinksWrapper>
+           {/*} <FooterLinkItems>
+             {/*} <FooterLinkTitle >About Us</FooterLinkTitle>
+              {/* <FooterLink to='/'>How it works</FooterLink>
               <FooterLink to='/'>Testimonials</FooterLink>
               <FooterLink to='/'>Careers</FooterLink>
               <FooterLink to='/'>Investors</FooterLink>
-              <FooterLink to='/'>Terms of Service</FooterLink>
-            </FooterLinkItems>
+              <FooterLink to='/'>Terms of Service</FooterLink> 
+            </FooterLinkItems> */}
 
-            <FooterLinkItems>
-              <FooterLinkTitle>About Us</FooterLinkTitle>
+             <FooterLinkItems>
+              {/* <FooterLinkTitle>About Us</FooterLinkTitle> */}
               <FooterLink to='/'>How it works</FooterLink>
-              <FooterLink to='/'>Testimonials</FooterLink>
+              {/* <FooterLink to='/'>Testimonials</FooterLink>
               <FooterLink to='/'>Careers</FooterLink>
               <FooterLink to='/'>Investors</FooterLink>
-              <FooterLink to='/'>Terms of Service</FooterLink>
+              <FooterLink to='/'>Terms of Service</FooterLink> */}
             </FooterLinkItems>
           </FooterLinksWrapper>
 
           <FooterLinksWrapper>
             <FooterLinkItems>
-              <FooterLinkTitle>About Us</FooterLinkTitle>
-              <FooterLink to='/'>How it works</FooterLink>
+              {/* <FooterLinkTitle>About Us</FooterLinkTitle>
+              <FooterLink to='/'>How it works</FooterLink> */}
               <FooterLink to='/'>Testimonials</FooterLink>
-              <FooterLink to='/'>Careers</FooterLink>
+              {/* <FooterLink to='/'>Careers</FooterLink>
               <FooterLink to='/'>Investors</FooterLink>
-              <FooterLink to='/'>Terms of Service</FooterLink>
+              <FooterLink to='/'>Terms of Service</FooterLink> */}
             </FooterLinkItems>
 
             <FooterLinkItems>
-              <FooterLinkTitle>About Us</FooterLinkTitle>
+              {/* <FooterLinkTitle>About Us</FooterLinkTitle>
               <FooterLink to='/'>How it works</FooterLink>
-              <FooterLink to='/'>Testimonials</FooterLink>
+              <FooterLink to='/'>Testimonials</FooterLink> */}
               <FooterLink to='/'>Careers</FooterLink>
-              <FooterLink to='/'>Investors</FooterLink>
-              <FooterLink to='/'>Terms of Service</FooterLink>
+              {/* <FooterLink to='/'>Investors</FooterLink>
+              <FooterLink to='/'>Terms of Service</FooterLink> */}
             </FooterLinkItems>
+
+             <FooterLinkItems>
+              {/* <FooterLinkTitle>About Us</FooterLinkTitle>
+              <FooterLink to='/'>How it works</FooterLink>
+              <FooterLink to='/'>Testimonials</FooterLink> 
+              <FooterLink to='/'>Careers</FooterLink>*/}
+              <FooterLink to='/'>Investors</FooterLink>
+              {/*<FooterLink to='/'>Terms of Service</FooterLink> */}
+            </FooterLinkItems>
+
+             <FooterLinkItems>
+              <FooterLink to='/'>Terms of Service</FooterLink> 
+            </FooterLinkItems> 
           </FooterLinksWrapper>
 
         </FooterLinksContainer>
@@ -58,9 +71,9 @@ const Footer = () => {
         <SocialMedia>
           <SocialMediaWrapper>
             <SocialLogo to='/' onClick={toggleHome}>
-              logo
+              Forecast
             </SocialLogo>
-            <WebsiteRights>logo © {new Date().getFullYear()} All rights reserved.</WebsiteRights>
+            <WebsiteRights>Forecast © {new Date().getFullYear()} All rights reserved.</WebsiteRights>
             <SocialIcons>
               <SocialIconLink href='/' target='_blank' aria-label='Facebook'>
                 <FaFacebook />

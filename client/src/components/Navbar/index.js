@@ -39,7 +39,7 @@ const Navbar = ({ toggle }) => {
         <Nav scrollNav={scrollNav}>
           <NavbarContainer>
             <NavLogo to="/" onClick={toggleHome}>
-              logo
+              Forecast
             </NavLogo>
             <MenuIcon onClick={toggle}>
               <FaBars />
@@ -90,7 +90,7 @@ const Navbar = ({ toggle }) => {
                   exact="true"
                   offset={-80}
                 >
-                  Sign Up
+                  Register
                 </NavLink>
               </NavItem>
             </NavMenu>
