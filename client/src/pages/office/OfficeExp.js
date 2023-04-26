@@ -15,8 +15,65 @@ import { updateFunc } from "../office/update";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 export const OfficeTable = (props) => {
   const { role } = props;
-
+ 
   console.log(role);
+  const readUploadFile = (e) => {
+    e.preventDefault();
+    if (e.target.files) {
+        const reader = new FileReader();
+        let json=[];
+        reader.onload = (e) => {
+            const data = e.target.result;
+            const workbook = XLSX.read(data, { type: "array" });
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+            json = XLSX.utils.sheet_to_json(worksheet);
+            console.log(json);
+            for(let i=0;i<json.length;i++){
+            updateApiCall(json[i]);
+          }
+        };
+        // for(let i=0;i<json.length;i++){
+        //   updateApiCall(json[i]);
+        // }
+
+        reader.readAsArrayBuffer(e.target.files[0]);
+    }
+  }
+  //...
+
+  //call api and fetch dat
+  // const [countryobj,setCountry]=useState({country:"IND"});
+  const updateApiCall = async (data) => {
+    console.log("called apicall");
+    //let country=countryobj.country;
+    let checkobj=data.expenses;
+    const response = await fetch(`http://localhost:8000/office/check/${checkobj}`);
+    const jsonData = await response.json();
+    console.log(jsonData);
+    if(jsonData.length===0){
+      
+      fetch("http://localhost:8000/office/addRow/", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "content-type": "application/json",
+      },
+    }).then((resp) => console.log("row does not exist in database and successfully added"));
+    }
+    else{
+      let upobj = data;
+    console.log(upobj);
+    fetch(`http://localhost:8000/office/updateRow/${data.expenses}`, {
+      method: "PUT",
+      body: JSON.stringify(upobj),
+      headers: {
+        "content-type": "application/json",
+      },
+    }).then((resp) => console.log("row already exists in database and successfully updated"));
+    }
+  };
+
   var XLSX = require("xlsx");
   const [mock1, setTodos] = useState(mock);
   const apiCall = async () => {
@@ -74,7 +131,7 @@ export const OfficeTable = (props) => {
     apiCall();
   }, []);
   //   //console.log(mock)
-
+ 
   const EditableNumberCell = ({
     cell: { value },
     row: { index },
@@ -84,10 +141,10 @@ export const OfficeTable = (props) => {
     const onChange = (e) => {
       updateMyData(index, id, parseInt(e.target.value, 10));
     };
-
+ 
     return <input value={value} onChange={onChange} type="number" />;
   };
-
+ 
   const ActionBtn = ({
     cell: { value },
     row: { index },
@@ -121,26 +178,26 @@ export const OfficeTable = (props) => {
     }
     COLUMNS[COLUMNS.length - 1].Cell = ActionBtn;
   }
-
-  const handleAction = (id) => {
+ 
+  const handleDelete= (id) => {
     //console.log(data[id].CashFlow);
-    fetch(`http://localhost:8000/contractor/deleteRow/${data[id].expenses}`, {
-      method: "ACTION",
+    fetch(`http://localhost:8000/office/deleteRow/${data[id].expenses}`, {
+      method: "DELETE",
     }).then((resp) => apiCall());
     //window.location.reload(false);
   };
-
+ 
   //   COLUMNS[14].Cell=()=>{
-
+ 
   //     return <div>
   //       <Button variant="outlined" color="primary" onClick={handleAction("1")}>Update</Button>
   //       <Button variant="outlined" color="secondary" onClick={handleAction("1")} >Action</Button>
   //       </div>
   // }
   //comment 2
-
+ 
   const columns = useMemo(() => COLUMNS, []);
-
+ 
   // let [newmock,setMock]=React.useState(()=>{
   //   console.log("in newmock's hook")
   //   console.log(mock)
@@ -159,7 +216,7 @@ export const OfficeTable = (props) => {
   // data=a[0];
   // let pi=a[1];
   // let pf=a[2];
-
+ 
   // let colarray=[];
   // let month=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   // let colarray2=[];
@@ -232,36 +289,36 @@ export const OfficeTable = (props) => {
       },
     }).then((resp) => apiCall());
   };
-
+ 
   //   const [userData, setUserData] = useState(()=>{
   //     return cd
   //   });
   //comment 1
-
+ 
   const tableInstance = useTable(
     {
       columns,
       data: data,
       updateMyData,
-      handleAction,
+      handleDelete,
       handleUpdate,
     },
     useBlockLayout,
     useSticky
   );
-
+ 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
   const [open, setOpen] = React.useState(false);
-
+ 
   const handleClickOpen = () => {
     setOpen(true);
   };
-
+ 
   const handleClose = () => {
     setOpen(false);
   };
-
+ 
   const [formData, setFormData] = useState({
     expenses: "",
     date: "",
@@ -293,7 +350,7 @@ export const OfficeTable = (props) => {
     let newData = new Array(...data);
     newData.push(data1);
     setData(newData);
-
+ 
     console.log("updating data from the form");
     fetch("http://localhost:8000/office/addRow/", {
       method: "POST",
@@ -313,11 +370,11 @@ export const OfficeTable = (props) => {
   //     console.log(countryobj.country);
   //     //apiCall();
   //   }
-
+ 
   // const handleAction=(id)=>{
   //   console.log(id);
   //    fetch('http://localhost:8000/payroll/ActionRow'+`/${id}`,{method:"Action"}).then(resp=>apiCall());
-
+ 
   // }
   return (
     <div className="page">
@@ -376,7 +433,8 @@ export const OfficeTable = (props) => {
       <button type="button" onClick={()=>
       setData(()=>updateFunc(data)[0])}>Save</button>
     </div> */}
-      <div style={{ display: "flex" }}>
+      <div style={{display: "flex", flexDirection: "column"}}>
+      <div style={{ display: "flex" ,marginBottom:'20px'}}>
         <div className="addbtn">
           <Grid align="right">
             <Button
@@ -398,16 +456,29 @@ export const OfficeTable = (props) => {
         <div className="addbtn" style={{ padding: " 0px 0px 0px 20px" }}>
           <Grid align="right">
             <Button variant="contained" color="info" onClick={downloadExcel}>
-              Print
+              Export to Excel
             </Button>
           </Grid>
-        </div>
-      </div>
-      {/*<div className="chartcont">
-    <BarChart chartData={cd}/>
-    </div> */}
-    </div>
+        </div></div>
+        {/* <form style={{textAlign:'right'}}>
+        <label htmlFor="upload" >Upload File</label>
+        <input
+          type="file"
+          name="upload"
+          id="upload"
+          onChange={readUploadFile}
+        />
+
+      </form> */}
+      <label htmlFor="images" className="drop-container">
+  <span className="drop-title">Drop files here</span>
+  or
+  <input type="file"  name="upload"
+          id="upload"
+          onChange={readUploadFile} required/>
+</label>
+      </div></div>
   );
 };
-
+ 
 // module.exports={ExpensesTable,country}

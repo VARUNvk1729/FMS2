@@ -15,6 +15,7 @@ export const PayrollTable = (props) => {
   const { role } = props;
   var XLSX = require("xlsx");
   console.log(role);
+  //...
   const readUploadFile = (e) => {
     e.preventDefault();
     if (e.target.files) {
@@ -38,6 +39,8 @@ export const PayrollTable = (props) => {
         reader.readAsArrayBuffer(e.target.files[0]);
     }
   }
+  //...
+
   //call api and fetch dat
   // const [countryobj,setCountry]=useState({country:"IND"});
   const updateApiCall = async (data) => {
@@ -69,6 +72,8 @@ export const PayrollTable = (props) => {
     }).then((resp) => console.log("row already exists in database and successfully updated"));
     }
   };
+  //...
+
   const apiCall = async () => {
     console.log("called apicall");
     //let country=countryobj.country;
@@ -381,7 +386,8 @@ export const PayrollTable = (props) => {
       <button type="button" onClick={()=>
       setData(()=>updateFunc(data)[0])}>Save</button>
     </div> */}
-      <div style={{ display: "flex" }}>
+    <div style={{display: "flex", flexDirection: "column"}}>
+      <div style={{ display: "flex" , marginBottom:'20px'}}>
         <div className="addbtn">
           <Grid align="right">
             <Button
@@ -403,11 +409,12 @@ export const PayrollTable = (props) => {
         <div className="addbtn" style={{ padding: " 0px 0px 0px 20px" }}>
           <Grid align="right">
             <Button variant="contained" color="info" onClick={downloadExcel}>
-              Print
+              Export to Excel
             </Button>
           </Grid>
-        </div>
-        <form>
+        </div></div>
+        
+        {/* <form>
         <label htmlFor="upload">Upload File</label>
         <input
           type="file"
@@ -415,7 +422,14 @@ export const PayrollTable = (props) => {
           id="upload"
           onChange={readUploadFile}
         />
-      </form>
+      </form> */}
+      <label htmlFor="images" className="drop-container">
+  <span className="drop-title">Drop files here</span>
+  or
+  <input type="file"  name="upload"
+          id="upload"
+          onChange={readUploadFile} required/>
+</label>
       </div>
       {/*<div className="chartcont">
     <BarChart chartData={cd}/>

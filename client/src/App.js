@@ -15,7 +15,7 @@ import { ExpensesTable } from "./pages/cashflow/ExpensesTable";
 import { ExpenseTable1 } from "./pages/revenue/ExpensesTable1";
 import { React, useState } from "react";
 import { useEffect } from "react";
-import { ContractorExp } from "./pages/contractorexpenses/ContractorExp";
+//import { ContractorExp } from "./pages/contractorexpenses/ContractorExp";
 import { OpexExpenses } from "./pages/opex/expensestable";
 import { PayrollTable } from "./pages/payroll/ExpensesTable";
 import { Dashboardtable } from "./pages/dashboard/expensestable";
@@ -89,10 +89,10 @@ const App = () => {
               </>
             }
           />
-          <Route
+          {/* <Route
             path="/dashboard/contractorexpenses"
             element={<ContractorExp role={true} />}
-          />
+          /> */}
           <Route
             path="/dashboard/opex"
             element={<OpexExpenses role={true} />}

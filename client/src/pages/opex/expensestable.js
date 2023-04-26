@@ -1,9 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { COLUMNS } from "../opex/columns";
 import { mock } from "../opex/expensesdata";
-//import '../table.css'
-//import BarChart from '../BarChart'
-import { updateFunc } from "../opex/update";
 import { Button, Grid } from "@material-ui/core";
 import FormDialog from "./dialog";
 import { useTable, useBlockLayout } from "react-table";
@@ -12,14 +9,69 @@ import { Styles } from "../TableStyles";
 import "../select.css";
 import "./TableStyles.css";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-
+ 
 export const OpexExpenses = (props) => {
   const { role } = props;
   var XLSX = require("xlsx");
-
+ 
   console.log(role);
   //call api and fetch dat
+  const readUploadFile = (e) => {
+    e.preventDefault();
+    if (e.target.files) {
+        const reader = new FileReader();
+        let json=[];
+        reader.onload = (e) => {
+            const data = e.target.result;
+            const workbook = XLSX.read(data, { type: "array" });
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+            json = XLSX.utils.sheet_to_json(worksheet);
+            console.log(json);
+            for(let i=0;i<json.length;i++){
+            updateApiCall(json[i]);
+          }
+        };
+        // for(let i=0;i<json.length;i++){
+        //   updateApiCall(json[i]);
+        // }
 
+        reader.readAsArrayBuffer(e.target.files[0]);
+    }
+  }
+  //...
+
+  //call api and fetch dat
+  // const [countryobj,setCountry]=useState({country:"IND"});
+  const updateApiCall = async (data) => {
+    console.log("called apicall");
+    //let country=countryobj.country;
+    let checkobj=data.expense;
+    const response = await fetch(`http://localhost:8000/opex/check/${checkobj}`);
+    const jsonData = await response.json();
+    console.log(jsonData);
+    if(jsonData.length===0){
+      
+      fetch("http://localhost:8000/opex/addRow/", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "content-type": "application/json",
+      },
+    }).then((resp) => console.log("row does not exist in database and successfully added"));
+    }
+    else{
+      let upobj = data;
+    console.log(upobj);
+    fetch(`http://localhost:8000/opex/updateRow/${data.expense}`, {
+      method: "PUT",
+      body: JSON.stringify(upobj),
+      headers: {
+        "content-type": "application/json",
+      },
+    }).then((resp) => console.log("row already exists in database and successfully updated"));
+    }
+  };
   const apiCall = async () => {
     console.log("called apicall");
     const response = await fetch(`http://localhost:8000/opex`);
@@ -74,7 +126,7 @@ export const OpexExpenses = (props) => {
     apiCall();
   }, []);
   //   console.log(mock)
-
+ 
   const EditableNumberCell = ({
     cell: { value },
     row: { index },
@@ -84,10 +136,10 @@ export const OpexExpenses = (props) => {
     const onChange = (e) => {
       updateMyData(index, id, parseInt(e.target.value, 10));
     };
-
+ 
     return <input value={value} onChange={onChange} type="number" />;
   };
-
+ 
   const ActionBtn = ({
     cell: { value },
     row: { index },
@@ -121,26 +173,26 @@ export const OpexExpenses = (props) => {
     }
     COLUMNS[COLUMNS.length - 1].Cell = ActionBtn;
   }
-
-  const handleAction = (id) => {
+ 
+  const handleDelete = (id) => {
     //console.log(data[id].CashFlow);
     fetch(`http://localhost:8000/opex/deleteRow/${data[id].expense}`, {
-      method: "ACTION",
+      method: "DELETE",
     }).then((resp) => apiCall());
     //window.location.reload(false);
   };
-
+ 
   //   COLUMNS[14].Cell=()=>{
-
+ 
   //     return <div>
   //       <Button variant="outlined" color="primary" onClick={handleDelete("1")}>Update</Button>
   //       <Button variant="outlined" color="secondary" onClick={handleDelete("1")} >Delete</Button>
   //       </div>
   // }
   //comment 2
-
+ 
   const columns = useMemo(() => COLUMNS, []);
-
+ 
   // let [newmock,setMock]=React.useState(()=>{
   //   console.log("in newmock's hook")
   //   console.log(mock)
@@ -159,7 +211,7 @@ export const OpexExpenses = (props) => {
   // data=a[0];
   // let pi=a[1];
   // let pf=a[2];
-
+ 
   // let colarray=[];
   // let month=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   // let colarray2=[];
@@ -232,36 +284,36 @@ export const OpexExpenses = (props) => {
       },
     }).then((resp) => apiCall());
   };
-
+ 
   //   const [userData, setUserData] = useState(()=>{
   //     return cd
   //   });
   //comment 1
-
+ 
   const tableInstance = useTable(
     {
       columns,
       data: data,
       updateMyData,
-      handleAction,
+      handleDelete,
       handleUpdate,
     },
     useBlockLayout,
     useSticky
   );
-
+ 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
   const [open, setOpen] = React.useState(false);
-
+ 
   const handleClickOpen = () => {
     setOpen(true);
   };
-
+ 
   const handleClose = () => {
     setOpen(false);
   };
-
+ 
   const [formData, setFormData] = useState({
     expense: "",
     jan: 0,
@@ -281,21 +333,21 @@ export const OpexExpenses = (props) => {
   const onChange = (e) => {
     const { value, id } = e.target;
     //console.log({...formData,[id]:value})
-
+ 
     if (id === "expense") {
       setFormData({ ...formData, [id]: value });
     } else {
       setFormData({ ...formData, [id]: parseInt(value) });
     }
   };
-
+ 
   const handleFormData = (data1) => {
     console.log(data1);
-
+ 
     let newData = new Array(...data);
     newData.push(data1);
     setData(newData);
-
+ 
     console.log("updating data from the form");
     fetch("http://localhost:8000/opex/addRow/", {
       method: "POST",
@@ -305,7 +357,7 @@ export const OpexExpenses = (props) => {
       },
     }).then((resp) => apiCall());
   };
-
+ 
   //   const onSelection=(e)=>{
   //     let val=e.target.value;
   //     //console.log(val);
@@ -315,11 +367,11 @@ export const OpexExpenses = (props) => {
   //     console.log(countryobj.country);
   //     //apiCall();
   //   }
-
+ 
   // const handleDelete=(id)=>{
   //   console.log(id);
   //    fetch('http://localhost:8000/opex/deleteRow'+`/${id}`,{method:"DELETE"}).then(resp=>apiCall());
-
+ 
   // }
   return (
     <div className="page">
@@ -378,7 +430,8 @@ export const OpexExpenses = (props) => {
       <button type="button" onClick={()=>
       setData(()=>updateFunc(data)[0])}>Save</button>
     </div> */}
-      <div style={{ display: "flex" }}>
+    <div style={{display: "flex", flexDirection: "column"}}>
+      <div style={{ display: "flex" ,marginBottom:'20px'}}>
         <div className="addbtn">
           <Grid align="right">
             <Button
@@ -400,10 +453,27 @@ export const OpexExpenses = (props) => {
         <div className="addbtn" style={{ padding: " 0px 0px 0px 20px" }}>
           <Grid align="right">
             <Button variant="contained" color="info" onClick={downloadExcel}>
-              Print
+              Export to Excel
             </Button>
           </Grid>
-        </div>
+        </div></div>
+        {/* <form style={{textAlign:'right'}}>
+        <label htmlFor="upload" >Upload File</label>
+        <input
+          type="file"
+          name="upload"
+          id="upload"
+          onChange={readUploadFile}
+        />
+
+      </form> */}
+      <label htmlFor="images" className="drop-container">
+  <span className="drop-title">Drop files here</span>
+  or
+  <input type="file"  name="upload"
+          id="upload"
+          onChange={readUploadFile} required/>
+</label>
       </div>
       {/*<div className="chartcont">
     <BarChart chartData={cd}/>
@@ -411,5 +481,5 @@ export const OpexExpenses = (props) => {
     </div>
   );
 };
-
+ 
 // module.exports={ExpensesTable,country}

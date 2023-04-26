@@ -149,28 +149,23 @@ app.put("/updateRow/:name", async (request, response) => {
 });
 
 //Contractor table
-app.get("/contractor/:country", async (request, response) => {
-  let { country } = request.params;
-  table = "contractor" + country;
-
-  const res = await db.query(`SELECT * FROM "${table}"`, (error, results) => {
+//vendor
+app.get("/vendor", async (request, response) => {
+  table = "vendor";
+ 
+  const res = await db.query(`SELECT * FROM ${table} order by vendors`, (error, results) => {
     if (error) {
       throw error;
     }
     response.status(200).json(results.rows);
   });
 });
-
-app.put("/contractor/updateRow/:name", async (request, response) => {
+ 
+app.put("/vendor/updateRow/:name", async (request, response) => {
   try {
     let { name } = request.params;
     const {
-      contractorname,
-      country,
-      dept,
-      job_title,
-      contract_type,
-      rate,
+      vendors,
       jan,
       feb,
       mar,
@@ -183,53 +178,40 @@ app.put("/contractor/updateRow/:name", async (request, response) => {
       oct,
       nov,
       dec,
-      jan_1,
-      feb_1,
-      mar_1,
       total,
-      country1,
     } = request.body;
     console.log(name);
-    table = "contractor" + country1;
+    table = "vendor";
     console.log(table);
     console.log(request.body);
-
+ 
     const res =
-      db.query(`update "${table}" set contractorname='${contractorname}',country='${country}',"dept"='${dept}',job_title='${job_title}',contract_type='${contract_type}',rate='${rate}',
-            jan=${jan},feb=${feb},mar=${mar},apr=${apr},may=${may},jun=${jun},jul=${jul},aug=${aug},sep=${sep},oct=${oct},nov=${nov}
-            ,dec=${dec},jan_1='${jan_1}',feb_1='${feb_1}',mar_1='${mar_1}',total=${total} where contractorname='${contractorname}'`);
+      db.query(`update ${table} set vendors='${vendors}',jan=${jan},feb=${feb},mar=${mar},apr=${apr},may=${may},jun=${jun},jul=${jul},aug=${aug},sep=${sep},oct=${oct},nov=${nov}
+        ,dec=${dec},total=${total} where vendors='${vendors}'`);
     response.send("Row Successfully Updated");
   } catch (err) {
     console.log(err.message);
   }
 });
-
-app.delete("/contractor/deleteRow/:id/:name", async (request, response) => {
+ 
+app.delete("/vendor/deleteRow/:name", async (request, response) => {
   try {
     console.log(request.params);
-    let { id, name } = request.params;
-    table = "contractor" + id;
+    let { name } = request.params;
+    table = "vendor";
     console.log(name);
-    console.log(id);
-    const res = db.query(
-      `delete from "${table}" where contractorname='${name}'`
-    );
+    const res = db.query(`delete from ${table} where vendors='${name}'`);
     response.send("Row Successfully Deleted");
   } catch (err) {
     console.log(err.message);
   }
 });
-
-app.post("/contractor/addRow/", async (request, response) => {
+ 
+app.post("/vendor/addRow/", async (request, response) => {
   console.log("from post request");
   console.log(request.body);
   const {
-    contractorname,
-    country,
-    dept,
-    job_title,
-    contract_type,
-    rate,
+    vendors,
     jan,
     feb,
     mar,
@@ -242,11 +224,7 @@ app.post("/contractor/addRow/", async (request, response) => {
     oct,
     nov,
     dec,
-    jan_1,
-    feb_1,
-    mar_1,
     total,
-    country1,
   } = request.body;
   // const selectUserQuery =`SELECT * FROM cashUSA WHERE "CashFlow" = '${CashFlow}'`;
   // const dbUser = await db.query(selectUserQuery);
@@ -256,22 +234,214 @@ app.post("/contractor/addRow/", async (request, response) => {
   //   response.status(400);
   //   response.send("User already exists");
   // } else {
-  table = "contractor" + country1;
-
-  let q = `insert into "${table}"(contractorname,country,dept,job_title,contract_type,rate,
-            jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov
-            ,dec,jan_1,feb_1,mar_1,total)
-              values('${contractorname}','${country}','${dept}','${job_title}','${contract_type}','${rate}'
-              ,${jan},${feb},${mar},${apr},${may},${jun},${jul},${aug},${sep},${oct},${nov},${dec},'${jan_1}',
-              '${feb_1}','${mar_1}',${total});`;
+  table = "vendor";
+ 
+  let q = `insert into ${table}(vendors,jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec,total)
+          values('${vendors}',${jan},${feb},${mar},${apr},${may},${jun},${jul},${aug},${sep},${oct},${nov},${dec},${total});`;
   console.log(q);
   const res = await db.query(q);
   response.status(200);
   response.send("Row added created successfully");
-
+ 
   //}
 });
 
+//office and opex
+app.get("/office", async (request, response) => {
+  table = "office";
+ 
+  const res = await db.query(`SELECT * FROM ${table} order by expenses`, (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+});
+ 
+app.put("/office/updateRow/:name", async (request, response) => {
+  try {
+    let { name } = request.params;
+    const {
+      expenses,
+      date,
+      jan,
+      feb,
+      mar,
+      apr,
+      may,
+      jun,
+      jul,
+      aug,
+      sep,
+      oct,
+      nov,
+      dec,
+      total,
+    } = request.body;
+    console.log(name);
+    table = "office";
+    console.log(table);
+    console.log(request.body);
+ 
+    const res =
+      db.query(`update ${table} set expenses='${expenses}',date='${date}',jan=${jan},feb=${feb},mar=${mar},apr=${apr},may=${may},jun=${jun},jul=${jul},aug=${aug},sep=${sep},oct=${oct},nov=${nov}
+          ,dec=${dec},total=${total} where expenses='${expenses}'`);
+    response.send("Row Successfully Updated");
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+ 
+app.delete("/office/deleteRow/:name", async (request, response) => {
+  try {
+    console.log(request.params);
+    let { name } = request.params;
+    table = "office";
+    console.log(name);
+    const res = db.query(`delete from ${table} where expenses='${name}'`);
+    response.send("Row Successfully Deleted");
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+ 
+app.post("/office/addRow/", async (request, response) => {
+  console.log("from post request");
+  console.log(request.body);
+  const {
+    expenses,
+    date,
+    jan,
+    feb,
+    mar,
+    apr,
+    may,
+    jun,
+    jul,
+    aug,
+    sep,
+    oct,
+    nov,
+    dec,
+    total,
+  } = request.body;
+  // const selectUserQuery =`SELECT * FROM cashUSA WHERE "CashFlow" = '${CashFlow}'`;
+  // const dbUser = await db.query(selectUserQuery);
+  // console.log(`SELECT * FROM cashUSA WHERE "CashFlow" = '${CashFlow}'`);
+  // console.log(dbUser)
+  // if (dbUser !== undefined) {
+  //   response.status(400);
+  //   response.send("User already exists");
+  // } else {
+  table = "office";
+ 
+  let q = `insert into ${table}(expenses,date,jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec,total)
+            values('${expenses}','${date}',${jan},${feb},${mar},${apr},${may},${jun},${jul},${aug},${sep},${oct},${nov},${dec},${total});`;
+  console.log(q);
+  const res = await db.query(q);
+  response.status(200);
+  response.send("Row added created successfully");
+ 
+  //}
+});
+ 
+//for operating expenses
+app.get("/opex", async (request, response) => {
+  table = "opex";
+ 
+  const res = await db.query(`SELECT * FROM ${table} order by expense`, (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+});
+ 
+app.delete("/opex/deleteRow/:name", async (request, response) => {
+  try {
+    console.log(request.params);
+    let { name } = request.params;
+    table = "opex";
+    console.log(name);
+    const res = db.query(`delete from ${table} where expense='${name}'`);
+    response.send("Row Successfully Deleted");
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+ 
+app.post("/opex/addRow/", async (request, response) => {
+  console.log("from post request");
+  console.log(request.body);
+  const {
+    expense,
+    jan,
+    feb,
+    mar,
+    apr,
+    may,
+    jun,
+    jul,
+    aug,
+    sep,
+    oct,
+    nov,
+    dec,
+    total,
+  } = request.body;
+  // const selectUserQuery =`SELECT * FROM cashUSA WHERE "CashFlow" = '${CashFlow}'`;
+  // const dbUser = await db.query(selectUserQuery);
+  // console.log(`SELECT * FROM cashUSA WHERE "CashFlow" = '${CashFlow}'`);
+  // console.log(dbUser)
+  // if (dbUser !== undefined) {
+  //   response.status(400);
+  //   response.send("User already exists");
+  // } else {
+  table = "opex";
+ 
+  let q = `insert into ${table}(expense,jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec,total)
+      values('${expense}',${jan},${feb},${mar},${apr},${may},${jun},${jul},${aug},${sep},${oct},${nov},${dec},${total});`;
+  console.log(q);
+  const res = await db.query(q);
+  response.status(200);
+  response.send("Row added created successfully");
+ 
+  //}
+});
+ 
+app.put("/opex/updateRow/:name", async (request, response) => {
+  try {
+    let { name } = request.params;
+    const {
+      expense,
+      jan,
+      feb,
+      mar,
+      apr,
+      may,
+      jun,
+      jul,
+      aug,
+      sep,
+      oct,
+      nov,
+      dec,
+      total,
+    } = request.body;
+    console.log(name);
+    console.log("updating")
+    table = "opex";
+    console.log(table);
+    console.log(request.body);
+ 
+    const res =
+      db.query(`update ${table} set expense='${expense}',jan=${jan},feb=${feb},mar=${mar},apr=${apr},may=${may},jun=${jun},jul=${jul},aug=${aug},sep=${sep},oct=${oct},nov=${nov}
+    ,dec=${dec},total=${total} where expense='${expense}'`);
+    response.send("Row Successfully Updated");
+  } catch (err) {
+    console.log(err.message);
+  }
+});
 //Capital Expense
 app.get("/capital", async (request, response) => {
   table = "capital";
@@ -370,131 +540,7 @@ app.post("/capital/addRow/", async (request, response) => {
   //}
 });
 
-//for operating expenses
-app.get("/opex/:country", async (request, response) => {
-  let { country } = request.params;
-  table = "opex" + country;
 
-  const res = await db.query(`SELECT * FROM "${table}"`, (error, results) => {
-    if (error) {
-      throw error;
-    }
-    response.status(200).json(results.rows);
-  });
-});
-
-app.delete("/opex/deleteRow/:id/:name", async (request, response) => {
-  try {
-    console.log(request.params);
-    let { id, name } = request.params;
-    table = "opex" + id;
-    console.log(name);
-    console.log(id);
-    const res = db.query(`delete from "${table}" where expense='${name}'`);
-    response.send("Row Successfully Deleted");
-  } catch (err) {
-    console.log(err.message);
-  }
-});
-
-app.post("/opex/addRow/", async (request, response) => {
-  console.log("from post request");
-  console.log(request.body);
-  const {
-    expense,
-    country,
-    dept,
-    description,
-    jan,
-    feb,
-    mar,
-    apr,
-    may,
-    jun,
-    jul,
-    aug,
-    sep,
-    oct,
-    nov,
-    dec,
-    jan_1,
-    feb_1,
-    mar_1,
-    total,
-    AOP,
-    budgeted,
-    variance,
-    tilldate,
-    remaining,
-    country1,
-  } = request.body;
-  // const selectUserQuery =`SELECT * FROM cashUSA WHERE "CashFlow" = '${CashFlow}'`;
-  // const dbUser = await db.query(selectUserQuery);
-  // console.log(`SELECT * FROM cashUSA WHERE "CashFlow" = '${CashFlow}'`);
-  // console.log(dbUser)
-  // if (dbUser !== undefined) {
-  //   response.status(400);
-  //   response.send("User already exists");
-  // } else {
-  table = "opex" + country1;
-
-  let q = `insert into "${table}"(expense,country,dept,description,jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec,jan_1,feb_1,mar_1,total,"AOP",budgeted,variance,tilldate,remaining)
-          values('${expense}','${country}','${dept}','${description}'
-          ,${jan},${feb},${mar},${apr},${may},${jun},${jul},${aug},${sep},${oct},${nov},${dec},'${jan_1}',
-          '${feb_1}','${mar_1}',${total},${AOP},${budgeted},${variance},${tilldate},${remaining});`;
-  console.log(q);
-  const res = await db.query(q);
-  response.status(200);
-  response.send("Row added created successfully");
-
-  //}
-});
-
-app.put("/opex/updateRow/:name", async (request, response) => {
-  try {
-    let { name } = request.params;
-    const {
-      expense,
-      country,
-      dept,
-      description,
-      jan,
-      feb,
-      mar,
-      apr,
-      may,
-      jun,
-      jul,
-      aug,
-      sep,
-      oct,
-      nov,
-      dec,
-      jan_1,
-      feb_1,
-      mar_1,
-      total,
-      AOP,
-      budgeted,
-      variance,
-      tilldate,
-      remaining,
-      country1,
-    } = request.body;
-    console.log(name);
-    table = "opex" + country1;
-    console.log(table);
-    console.log(request.body);
-
-    const res =
-      db.query(`update "${table}" set expense='${expense}',country='${country}',dept='${dept}',description='${description}',
-        jan=${jan},feb=${feb},mar=${mar},apr=${apr},may=${may},jun=${jun},jul=${jul},aug=${aug},sep=${sep},oct=${oct},nov=${nov}
-        ,dec=${dec},jan_1='${jan_1}',feb_1='${feb_1}',mar_1='${mar_1}',total=${total},"AOP"=${AOP},budgeted=${budgeted},variance=${variance},tilldate=${tilldate},remaining=${remaining} where expense='${expense}'`);
-    response.send("Row Successfully Updated");
-  } catch (err) {
-    console.log(err.message);
-  }
-});
 
 app.get("/revenue/:country", async (request, response) => {
   let { country } = request.params;
@@ -746,7 +792,7 @@ app.get("/api/users/:id", async (req, res) => {
 app.get("/payroll", async (request, response) => {
   table = "payroll";
 
-  const res = await db.query(`SELECT * FROM ${table}`, (error, results) => {
+  const res = await db.query(`SELECT * FROM ${table} order by payroll`, (error, results) => {
     if (error) {
       throw error;
     }
@@ -990,7 +1036,7 @@ app.get("/getStatistics/vendor", async (request, response) => {
 app.get("/dashboard", async (request, response) => {
   table = "dashboard";
 
-  const res = await db.query(`SELECT * FROM ${table}`, (error, results) => {
+  const res = await db.query(`SELECT * FROM ${table} `, (error, results) => {
     if (error) {
       throw error;
     }
@@ -1409,6 +1455,59 @@ app.get("/getVendors", async (request, response) => {
   });
 });
 
+app.get("/payroll/check/:name", async (request, response) => {
+  table = "payroll";
+  let {name}=request.params;
+  const res = await db.query(`SELECT * FROM ${table} where payroll='${name}'`, (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+});
 
+app.get("/capital/check/:name", async (request, response) => {
+  table = "capital";
+  let {name}=request.params;
+  const res = await db.query(`SELECT * FROM ${table} where item='${name}'`, (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+});
+
+app.get("/office/check/:name", async (request, response) => {
+  table = "office";
+  let {name}=request.params;
+  const res = await db.query(`SELECT * FROM ${table} where expenses='${name}'`, (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+});
+
+app.get("/opex/check/:name", async (request, response) => {
+  table = "opex";
+  let {name}=request.params;
+  const res = await db.query(`SELECT * FROM ${table} where expense='${name}'`, (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+});
+
+app.get("/vendor/check/:name", async (request, response) => {
+  table = "vendor";
+  let {name}=request.params;
+  const res = await db.query(`SELECT * FROM ${table} where vendors='${name}'`, (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+});
 
 appStart();

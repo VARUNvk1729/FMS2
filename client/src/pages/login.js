@@ -67,7 +67,7 @@ const Login = () => {
             className="form-control"
             id="password"
             name="password"
-            placeholder="passwod"
+            placeholder="password"
             required
           />
         </div>

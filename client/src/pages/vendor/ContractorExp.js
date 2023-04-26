@@ -5,22 +5,75 @@ import { Styles } from "../TableStyles";
 import { COLUMNS } from "../vendor/columns";
 import { mock } from "../vendor/expensesdata";
 import "../select.css";
-import BarChart from "../BarChart";
 import { Button, Grid } from "@material-ui/core";
 import FormDialog from "./dialog";
-import { updateFunc } from "../vendor/update";
 import "./TableStyles.css";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-
+ 
 export const VendorTable = (props) => {
   const { role } = props;
   var XLSX = require("xlsx");
   console.log(role);
+  const readUploadFile = (e) => {
+    e.preventDefault();
+    if (e.target.files) {
+        const reader = new FileReader();
+        let json=[];
+        reader.onload = (e) => {
+            const data = e.target.result;
+            const workbook = XLSX.read(data, { type: "array" });
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+            json = XLSX.utils.sheet_to_json(worksheet);
+            console.log(json);
+            for(let i=0;i<json.length;i++){
+            updateApiCall(json[i]);
+          }
+        };
+        // for(let i=0;i<json.length;i++){
+        //   updateApiCall(json[i]);
+        // }
 
+        reader.readAsArrayBuffer(e.target.files[0]);
+    }
+  }
+  //...
+
+  //call api and fetch dat
+  // const [countryobj,setCountry]=useState({country:"IND"});
+  const updateApiCall = async (data) => {
+    console.log("called apicall");
+    //let country=countryobj.country;
+    let checkobj=data.vendors;
+    const response = await fetch(`http://localhost:8000/vendor/check/${checkobj}`);
+    const jsonData = await response.json();
+    console.log(jsonData);
+    if(jsonData.length===0){
+      
+      fetch("http://localhost:8000/vendor/addRow/", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "content-type": "application/json",
+      },
+    }).then((resp) => console.log("row does not exist in database and successfully added"));
+    }
+    else{
+      let upobj = data;
+    console.log(upobj);
+    fetch(`http://localhost:8000/vendor/updateRow/${data.vendors}`, {
+      method: "PUT",
+      body: JSON.stringify(upobj),
+      headers: {
+        "content-type": "application/json",
+      },
+    }).then((resp) => console.log("row already exists in database and successfully updated"));
+    }
+  };
   const [mock1, setTodos] = useState(mock);
   const apiCall = async () => {
     console.log("called apicall");
-    const response = await fetch(`http://localhost:8000/contractor`);
+    const response = await fetch(`http://localhost:8000/vendor`);
     const jsonData = await response.json();
     console.log("got data from api");
     console.log(jsonData);
@@ -72,7 +125,7 @@ export const VendorTable = (props) => {
     apiCall();
   }, []);
   //   //console.log(mock)
-
+ 
   const EditableNumberCell = ({
     cell: { value },
     row: { index },
@@ -82,10 +135,10 @@ export const VendorTable = (props) => {
     const onChange = (e) => {
       updateMyData(index, id, parseInt(e.target.value, 10));
     };
-
+ 
     return <input value={value} onChange={onChange} type="number" />;
   };
-
+ 
   const ActionBtn = ({
     cell: { value },
     row: { index },
@@ -116,12 +169,13 @@ export const VendorTable = (props) => {
     }
     COLUMNS[COLUMNS.length - 1].Cell = ActionBtn;
   }
-
+ 
   const handleDelete = (id) => {
-    fetch(`http://localhost:8000/contractor/deleteRow/${data[id].vendors}`, {
-      method: "ACTION",
+    fetch(`http://localhost:8000/vendor/deleteRow/${data[id].vendors}`, {
+      method: "DELETE",
     }).then((resp) => apiCall());
   };
+ 
   const columns = useMemo(() => COLUMNS, []);
   let [newmock, setMock] = React.useState(mock);
   let [data, setData] = React.useState(newmock);
@@ -154,7 +208,7 @@ export const VendorTable = (props) => {
     let upobj = data[id];
     console.log(upobj);
     //console.log(data[id].CashFlow);
-    fetch(`http://localhost:8000/contractor/updateRow/${data[id].vendors}`, {
+    fetch(`http://localhost:8000/vendor/updateRow/${data[id].vendors}`, {
       method: "PUT",
       body: JSON.stringify(upobj),
       headers: {
@@ -173,19 +227,19 @@ export const VendorTable = (props) => {
     useBlockLayout,
     useSticky
   );
-
+ 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
   const [open, setOpen] = React.useState(false);
-
+ 
   const handleClickOpen = () => {
     setOpen(true);
   };
-
+ 
   const handleClose = () => {
     setOpen(false);
   };
-
+ 
   const [formData, setFormData] = useState({
     vendors: "",
     jan: 0,
@@ -202,7 +256,7 @@ export const VendorTable = (props) => {
     dec: 0,
     total: 0,
   });
-
+ 
   const onChange = (e) => {
     const { value, id } = e.target;
     //console.log({...formData,[id]:value})
@@ -217,9 +271,9 @@ export const VendorTable = (props) => {
     let newData = new Array(...data);
     newData.push(data1);
     setData(newData);
-
+ 
     console.log("updating data from the form");
-    fetch("http://localhost:8000/contractor/addRow/", {
+    fetch("http://localhost:8000/vendor/addRow/", {
       method: "POST",
       body: JSON.stringify(data1),
       headers: {
@@ -269,7 +323,8 @@ export const VendorTable = (props) => {
           </div>
         </Styles>
       </div>
-      <div style={{ display: "flex" }}>
+       <div style={{display: "flex", flexDirection: "column"}}>
+      <div style={{ display: "flex" ,marginBottom:'20px'}}>
         <div className="addbtn">
           <Grid align="right">
             <Button
@@ -291,11 +346,28 @@ export const VendorTable = (props) => {
         <div className="addbtn" style={{ padding: " 0px 0px 0px 20px" }}>
           <Grid align="right">
             <Button variant="contained" color="info" onClick={downloadExcel}>
-              Print
+              Export to Excel
             </Button>
           </Grid>
-        </div>
+        </div></div>
+        {/* <form style={{textAlign:'right'}}>
+        <label htmlFor="upload" >Upload File</label>
+        <input
+          type="file"
+          name="upload"
+          id="upload"
+          onChange={readUploadFile}
+        />
+
+      </form> */}
+      <label htmlFor="images" className="drop-container">
+  <span className="drop-title">Drop files here</span>
+  or
+  <input type="file"  name="upload"
+          id="upload"
+          onChange={readUploadFile} required/>
+</label>
       </div>
-    </div>
+      </div>
   );
 };
